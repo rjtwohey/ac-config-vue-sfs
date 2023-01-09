@@ -1,0 +1,7 @@
+{
+  "name": "ac-config-vue",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "vue"
+}
