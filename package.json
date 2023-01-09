@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "assets": "capacitor-assets generate --iconBackgroundColor '#f4f5f8' --splashBackgroundColor '#f4f5f8' --iconBackgroundColorDark '#222428' --splashBackgroundColorDark '#222428'",
-    "build": "vue-cli-service build",
+    "build": "vue-cli-service build && cap sync",
     "lint": "vue-cli-service lint",
     "prepare": "husky install",
     "serve": "vue-cli-service serve",
@@ -21,6 +21,7 @@
     "@capacitor/haptics": "4.1.0",
     "@capacitor/ios": "4.6.1",
     "@capacitor/keyboard": "4.1.0",
+    "@capacitor/splash-screen": "~4.1.2",
     "@capacitor/status-bar": "4.1.1",
     "@ionic/vue": "^6.0.0",
     "@ionic/vue-router": "^6.0.0",
