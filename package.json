@@ -6,6 +6,7 @@
   "scripts": {
     "assets": "capacitor-assets generate --iconBackgroundColor '#f4f5f8' --splashBackgroundColor '#f4f5f8' --iconBackgroundColorDark '#222428' --splashBackgroundColorDark '#222428'",
     "build": "vue-cli-service build && cap sync",
+    "build:ci": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "prepare": "husky install",
     "serve": "vue-cli-service serve",
