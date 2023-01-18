@@ -5,7 +5,7 @@ import { useAuthConnect } from '@/composables/auth-connect';
 import { useAuthConfig } from '@/composables/auth-config';
 import { useAuthProviders } from '@/composables/auth-providers';
 import { useAuthFlows } from '@/composables/auth-flows';
-import { isPlatform } from '@ionic/vue';
+import { IonTitle, isPlatform } from '@ionic/vue';
 import WrapperLike from '@vue/test-utils/dist/interfaces/wrapperLike';
 
 jest.mock('@/composables/auth-connect');
@@ -57,6 +57,12 @@ describe('settings page', () => {
   it('renders', async () => {
     const wrapper = await mountView();
     expect(wrapper.exists()).toBe(true);
+  });
+
+  it('has the correct title', async () => {
+    const wrapper = await mountView();
+    const title = wrapper.findComponent(IonTitle);
+    expect(title.text()).toBe('Settings');
   });
 
   describe('when logged in', () => {

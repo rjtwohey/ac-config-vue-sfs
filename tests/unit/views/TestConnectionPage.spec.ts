@@ -2,6 +2,7 @@ import TestConnectionPage from '@/views/TestConnectionPage.vue';
 import { flushPromises, mount, VueWrapper } from '@vue/test-utils';
 import { createRouter, createWebHistory, Router } from 'vue-router';
 import { useAuthConnect } from '@/composables/auth-connect';
+import { IonTitle } from '@ionic/vue';
 
 jest.mock('@/composables/auth-connect');
 
@@ -31,6 +32,12 @@ describe('test connection page', () => {
   it('renders', async () => {
     const wrapper = await mountView();
     expect(wrapper.exists()).toBe(true);
+  });
+
+  it('has the correct title', async () => {
+    const wrapper = await mountView();
+    const title = wrapper.findComponent(IonTitle);
+    expect(title.text()).toBe('Test Connection');
   });
 
   describe('when logged in', () => {

@@ -2,7 +2,7 @@
   <ion-page>
     <ion-header>
       <ion-toolbar>
-        <ion-title>Tab 2</ion-title>
+        <ion-title>Settings</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content class="ion-padding">

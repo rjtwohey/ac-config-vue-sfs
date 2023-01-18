@@ -2,7 +2,7 @@
   <ion-page>
     <ion-header>
       <ion-toolbar>
-        <ion-title>Test Connect</ion-title>
+        <ion-title>Test Connection</ion-title>
       </ion-toolbar>
     </ion-header>
 
