@@ -40,30 +40,48 @@
         </ion-item>
         <ion-list-header> Customize </ion-list-header>
         <ion-item>
-          <ion-label> Auth Config </ion-label>
-          <ion-select v-model="provider" :disabled="disableEdits" data-testid="provider-select">
+          <ion-select v-model="provider" :disabled="disableEdits" label="Auth Config" data-testid="provider-select">
             <ion-select-option v-for="p of providers" :value="p" :key="p.key">{{ p.value }}</ion-select-option>
           </ion-select>
         </ion-item>
         <ion-item>
-          <ion-label position="floating"> Client ID</ion-label>
-          <ion-input v-model="clientId" :disabled="disableEdits" data-testid="client-id-input"></ion-input>
+          <ion-input
+            v-model="clientId"
+            :disabled="disableEdits"
+            label-placement="floating"
+            label="Client ID"
+            data-testid="client-id-input"
+          ></ion-input>
         </ion-item>
         <ion-item>
-          <ion-label position="floating"> Discovery URL </ion-label>
-          <ion-input v-model="discoveryUrl" :disabled="disableEdits" data-testid="discovery-url-input"></ion-input>
+          <ion-input
+            v-model="discoveryUrl"
+            :disabled="disableEdits"
+            label-placement="floating"
+            label="Discovery URL"
+            data-testid="discovery-url-input"
+          ></ion-input>
         </ion-item>
         <ion-item>
-          <ion-label position="floating"> Scope </ion-label>
-          <ion-input v-model="scope" :disabled="disableEdits" data-testid="scope-input"></ion-input>
+          <ion-input
+            v-model="scope"
+            :disabled="disableEdits"
+            label-placement="floating"
+            label="Scope"
+            data-testid="scope-input"
+          ></ion-input>
         </ion-item>
         <ion-item>
-          <ion-label position="floating"> Audience </ion-label>
-          <ion-input v-model="audience" :disabled="disableEdits" data-testid="audience-input"></ion-input>
+          <ion-input
+            v-model="audience"
+            :disabled="disableEdits"
+            label-placement="floating"
+            label="Audience"
+            data-testid="audience-input"
+          ></ion-input>
         </ion-item>
         <ion-item v-if="showFlow">
-          <ion-label> Web Auth Flow </ion-label>
-          <ion-select v-model="flow" :disabled="disableEdits" data-testid="flow-select">
+          <ion-select v-model="flow" :disabled="disableEdits" label="Web Auth Flow" data-testid="flow-select">
             <ion-select-option v-for="f of flows" :value="f" :key="f.key">{{ f.value }}</ion-select-option>
           </ion-select>
         </ion-item>
