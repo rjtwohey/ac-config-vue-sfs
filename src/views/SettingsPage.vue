@@ -40,7 +40,13 @@
         </ion-item>
         <ion-list-header> Customize </ion-list-header>
         <ion-item>
-          <ion-select v-model="provider" :disabled="disableEdits" label="Auth Config" data-testid="provider-select">
+          <ion-select
+            v-model="provider"
+            :compare-with="compareKVPair"
+            :disabled="disableEdits"
+            label="Auth Config"
+            data-testid="provider-select"
+          >
             <ion-select-option v-for="p of providers" :value="p" :key="p.key">{{ p.value }}</ion-select-option>
           </ion-select>
         </ion-item>
@@ -81,7 +87,13 @@
           ></ion-input>
         </ion-item>
         <ion-item v-if="showFlow">
-          <ion-select v-model="flow" :disabled="disableEdits" label="Web Auth Flow" data-testid="flow-select">
+          <ion-select
+            v-model="flow"
+            :compare-with="compareKVPair"
+            :disabled="disableEdits"
+            label="Web Auth Flow"
+            data-testid="flow-select"
+          >
             <ion-select-option v-for="f of flows" :value="f" :key="f.key">{{ f.value }}</ion-select-option>
           </ion-select>
         </ion-item>
@@ -152,6 +164,10 @@ const setIonicProvider = async (opt: ProviderOptions, provider: string, flow: st
     isPlatform('hybrid') ? undefined : flows.find((f) => f.key === flow)
   );
   initCustomizableFields();
+};
+
+const compareKVPair = (x: { key: string; value: any }, y: { key: string; value: any }) => {
+  return x && y && x.key === y.key;
 };
 
 const initialize = async () => {
