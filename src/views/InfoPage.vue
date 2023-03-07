@@ -83,7 +83,7 @@
       <ul>
         <li>redirectUri</li>
         <li>logoutUrl</li>
-        <li>implicitLogin</li>
+        <li>uiMode</li>
       </ul>
 
       <p>

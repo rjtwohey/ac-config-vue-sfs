@@ -16,14 +16,14 @@
     "test:unit": "vue-cli-service test:unit"
   },
   "dependencies": {
-    "@capacitor/android": "~4.6.2",
+    "@capacitor/android": "~4.7.0",
     "@capacitor/app": "4.1.1",
-    "@capacitor/core": "~4.6.2",
+    "@capacitor/core": "~4.7.0",
     "@capacitor/haptics": "4.1.0",
-    "@capacitor/ios": "~4.6.2",
+    "@capacitor/ios": "~4.7.0",
     "@capacitor/keyboard": "~4.1.1",
     "@capacitor/preferences": "~4.0.2",
-    "@capacitor/splash-screen": "~4.1.2",
+    "@capacitor/splash-screen": "~4.2.0",
     "@capacitor/status-bar": "4.1.1",
     "@ionic-enterprise/auth": "~4.0.0-dev-20230109T205949.0",
     "@ionic/vue": "~7.0.0-beta.1",
@@ -35,7 +35,7 @@
   },
   "devDependencies": {
     "@capacitor/assets": "~2.0.4",
-    "@capacitor/cli": "~4.6.2",
+    "@capacitor/cli": "~4.7.0",
     "@ionic/prettier-config": "~2.0.0",
     "@types/jest": "^27.0.2",
     "@typescript-eslint/eslint-plugin": "^5.6.0",

@@ -566,7 +566,7 @@ describe('auth connect', () => {
           webView: 'private',
         },
         web: {
-          implicitLogin: 'popup',
+          uiMode: 'popup',
           authFlow: 'implicit',
         },
       });
@@ -585,7 +585,7 @@ describe('auth connect', () => {
           webView: 'private',
         },
         web: {
-          implicitLogin: 'popup',
+          uiMode: 'popup',
           authFlow: 'implicit',
         },
       });
@@ -665,7 +665,7 @@ describe('auth connect', () => {
             webView: 'private',
           },
           web: {
-            implicitLogin: 'popup',
+            uiMode: 'popup',
             authFlow: 'PKCE',
           },
         });

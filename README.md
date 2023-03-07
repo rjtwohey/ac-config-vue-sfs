@@ -51,7 +51,7 @@ There are three configuration items, however, that you may want to change that w
 
 - redirectUri
 - logoutUrl
-- implicitLogin
+- uiMode
 
 ### Updating the `redirectUri` and the `logoutUrl`
 
@@ -65,9 +65,9 @@ something like `com.your-domain.appname` instead. Such a change requires:
 
 All three of the above items needs to match.
 
-### Updating the `implicitLogin`
+### Updating the `uiMode`
 
-If you change the `implicitLogin` from `popup` to `current` you will need to change the code as well.
+If you change the `uiMode` from `popup` to `current` you will need to change the code as well.
 With `current`, the current web context is used for the login. When doing so, all session state is lost. Also, upon
 returning to the application, the auth token will be provided as a query parameter that needs to be extracted.
 

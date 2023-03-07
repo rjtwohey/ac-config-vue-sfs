@@ -126,7 +126,7 @@ const setupAuthConnect = async (): Promise<void> => {
       webView: 'private',
     },
     web: {
-      implicitLogin: 'popup',
+      uiMode: 'popup',
       authFlow: flow ? flow.key : 'implicit',
     },
   };
