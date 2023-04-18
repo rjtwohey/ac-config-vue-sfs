@@ -1,17 +1,18 @@
-import { flushPromises, mount, VueWrapper } from '@vue/test-utils';
-import SettingsPage from '@/views/SettingsPage.vue';
-import { createRouter, createWebHistory, Router } from 'vue-router';
-import { useAuthConnect } from '@/composables/auth-connect';
 import { useAuthConfig } from '@/composables/auth-config';
-import { useAuthProviders } from '@/composables/auth-providers';
+import { useAuthConnect } from '@/composables/auth-connect';
 import { useAuthFlows } from '@/composables/auth-flows';
+import { useAuthProviders } from '@/composables/auth-providers';
+import SettingsPage from '@/views/SettingsPage.vue';
 import { IonTitle, isPlatform } from '@ionic/vue';
+import { flushPromises, mount, VueWrapper } from '@vue/test-utils';
 import WrapperLike from '@vue/test-utils/dist/interfaces/wrapperLike';
+import { beforeEach, describe, expect, it, Mock, vi } from 'vitest';
+import { createRouter, createWebHistory, Router } from 'vue-router';
 
-jest.mock('@/composables/auth-connect');
-jest.mock('@ionic/vue', () => {
-  const actual = jest.requireActual('@ionic/vue');
-  return { ...actual, isPlatform: jest.fn() };
+vi.mock('@/composables/auth-connect');
+vi.mock('@ionic/vue', async () => {
+  const actual = (await vi.importActual('@ionic/vue')) as any;
+  return { ...actual, isPlatform: vi.fn() };
 });
 
 describe('settings page', () => {
@@ -34,24 +35,24 @@ describe('settings page', () => {
   };
 
   beforeEach(() => {
-    jest.resetAllMocks();
+    vi.resetAllMocks();
 
     const { getConfig, getProvider, getFlow } = useAuthConnect();
     const { auth0Config } = useAuthConfig();
     const { providers } = useAuthProviders();
     const { flows } = useAuthFlows();
 
-    (getConfig as jest.Mock).mockResolvedValue({
+    (getConfig as Mock).mockResolvedValue({
       ...auth0Config,
     });
-    (getProvider as jest.Mock).mockResolvedValue({
+    (getProvider as Mock).mockResolvedValue({
       ...providers.find((p) => p.key === 'auth0'),
     });
-    (getFlow as jest.Mock).mockResolvedValue({
+    (getFlow as Mock).mockResolvedValue({
       ...flows.find((p) => p.key === 'PKCE'),
     });
 
-    (isPlatform as jest.Mock).mockReturnValue(false);
+    (isPlatform as Mock).mockReturnValue(false);
   });
 
   it('renders', async () => {
@@ -68,7 +69,7 @@ describe('settings page', () => {
   describe('when logged in', () => {
     beforeEach(() => {
       const { isAuthenticated } = useAuthConnect();
-      (isAuthenticated as jest.Mock).mockResolvedValue(true);
+      (isAuthenticated as Mock).mockResolvedValue(true);
     });
 
     it('displays a message to logout first', async () => {
@@ -164,7 +165,7 @@ describe('settings page', () => {
   describe('when not logged in', () => {
     beforeEach(async () => {
       const { isAuthenticated } = useAuthConnect();
-      (isAuthenticated as jest.Mock).mockResolvedValue(false);
+      (isAuthenticated as Mock).mockResolvedValue(false);
     });
 
     it('does not display a message to logout first', async () => {
@@ -196,7 +197,7 @@ describe('settings page', () => {
 
       describe('on the web', () => {
         beforeEach(() => {
-          (isPlatform as jest.Mock).mockReturnValue(false);
+          (isPlatform as Mock).mockReturnValue(false);
         });
 
         it('saves the config', async () => {
@@ -216,7 +217,7 @@ describe('settings page', () => {
 
       describe('on mobile', () => {
         beforeEach(() => {
-          (isPlatform as jest.Mock).mockReturnValue(true);
+          (isPlatform as Mock).mockReturnValue(true);
         });
 
         it('saves the config', async () => {
@@ -243,7 +244,7 @@ describe('settings page', () => {
 
       describe('on web', () => {
         beforeEach(() => {
-          (isPlatform as jest.Mock).mockReturnValue(false);
+          (isPlatform as Mock).mockReturnValue(false);
         });
 
         it('saves the config', async () => {
@@ -263,7 +264,7 @@ describe('settings page', () => {
 
       describe('on mobile', () => {
         beforeEach(() => {
-          (isPlatform as jest.Mock).mockReturnValue(true);
+          (isPlatform as Mock).mockReturnValue(true);
         });
 
         it('saves the config', async () => {
@@ -290,7 +291,7 @@ describe('settings page', () => {
 
       describe('on web', () => {
         beforeEach(() => {
-          (isPlatform as jest.Mock).mockReturnValue(false);
+          (isPlatform as Mock).mockReturnValue(false);
         });
 
         it('saves the config', async () => {
@@ -310,7 +311,7 @@ describe('settings page', () => {
 
       describe('on mobile', () => {
         beforeEach(() => {
-          (isPlatform as jest.Mock).mockReturnValue(true);
+          (isPlatform as Mock).mockReturnValue(true);
         });
 
         it('saves the config', async () => {
@@ -337,7 +338,7 @@ describe('settings page', () => {
 
       describe('on web', () => {
         beforeEach(() => {
-          (isPlatform as jest.Mock).mockReturnValue(false);
+          (isPlatform as Mock).mockReturnValue(false);
         });
 
         it('saves the config', async () => {
@@ -357,7 +358,7 @@ describe('settings page', () => {
 
       describe('on mobile', () => {
         beforeEach(() => {
-          (isPlatform as jest.Mock).mockReturnValue(true);
+          (isPlatform as Mock).mockReturnValue(true);
         });
 
         it('saves the config', async () => {
@@ -385,7 +386,7 @@ describe('settings page', () => {
 
       describe('on web', () => {
         beforeEach(() => {
-          (isPlatform as jest.Mock).mockReturnValue(false);
+          (isPlatform as Mock).mockReturnValue(false);
         });
 
         it('saves the config', async () => {
@@ -423,7 +424,7 @@ describe('settings page', () => {
 
       describe('on mobile', () => {
         beforeEach(() => {
-          (isPlatform as jest.Mock).mockReturnValue(true);
+          (isPlatform as Mock).mockReturnValue(true);
         });
 
         it('saves the config', async () => {

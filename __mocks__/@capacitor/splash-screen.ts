@@ -1,4 +1,6 @@
+import { vi } from 'vitest';
+
 export const SplashScreen = {
-  hide: jest.fn().mockResolvedValue(undefined),
-  show: jest.fn().mockResolvedValue(undefined),
+  hide: vi.fn().mockResolvedValue(undefined),
+  show: vi.fn().mockResolvedValue(undefined),
 };

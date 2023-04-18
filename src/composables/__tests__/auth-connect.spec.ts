@@ -1,15 +1,17 @@
-import { Preferences } from '@capacitor/preferences';
-import { useAuthConnect } from '@/composables/auth-connect';
-import { AuthConnect, AzureProvider, CognitoProvider, ProviderOptions } from '@ionic-enterprise/auth';
-import { useAuthProviders } from '@/composables/auth-providers';
-import { useAuthFlows } from '@/composables/auth-flows';
-import { isPlatform } from '@ionic/vue';
 import { useAuthConfig } from '@/composables/auth-config';
+import { useAuthConnect } from '@/composables/auth-connect';
+import { useAuthFlows } from '@/composables/auth-flows';
+import { useAuthProviders } from '@/composables/auth-providers';
+import { Preferences } from '@capacitor/preferences';
+import { AuthConnect, AzureProvider, CognitoProvider, ProviderOptions } from '@ionic-enterprise/auth';
+import { isPlatform } from '@ionic/vue';
+import { Mock, beforeEach, describe, expect, it, vi } from 'vitest';
 
-jest.mock('@ionic-enterprise/auth');
-jest.mock('@ionic/vue', () => {
-  const actual = jest.requireActual('@ionic/vue');
-  return { ...actual, isPlatform: jest.fn().mockReturnValue(true) };
+vi.mock('@capacitor/preferences');
+vi.mock('@ionic-enterprise/auth');
+vi.mock('@ionic/vue', async () => {
+  const actual = (await vi.importActual('@ionic/vue')) as any;
+  return { ...actual, isPlatform: vi.fn().mockReturnValue(true) };
 });
 
 describe('auth connect', () => {
@@ -27,7 +29,7 @@ describe('auth connect', () => {
     const { azureConfig } = useAuthConfig();
     const { flows } = useAuthFlows();
     const { providers } = useAuthProviders();
-    (Preferences.get as jest.Mock).mockImplementation(async (arg: { key: string }) => {
+    (Preferences.get as Mock).mockImplementation(async (arg: { key: string }) => {
       if (arg.key === 'auth-provider') {
         return { value: JSON.stringify(providers.find((p) => p.key === 'azure')) };
       }
@@ -49,8 +51,8 @@ describe('auth connect', () => {
   };
 
   beforeEach(() => {
-    jest.resetAllMocks();
-    (Preferences.get as jest.Mock).mockResolvedValue({ value: null });
+    vi.resetAllMocks();
+    (Preferences.get as Mock).mockResolvedValue({ value: null });
     const { clearCache } = useAuthConnect();
     clearCache();
   });
@@ -67,13 +69,13 @@ describe('auth connect', () => {
 
     it('resolves false if the refresh token is not available', async () => {
       const { canRefresh } = useAuthConnect();
-      (AuthConnect.isRefreshTokenAvailable as jest.Mock).mockResolvedValue(false);
+      (AuthConnect.isRefreshTokenAvailable as Mock).mockResolvedValue(false);
       expect(await canRefresh()).toEqual(false);
     });
 
     it('resolves true if the token is available', async () => {
       const { canRefresh } = useAuthConnect();
-      (AuthConnect.isRefreshTokenAvailable as jest.Mock).mockResolvedValue(true);
+      (AuthConnect.isRefreshTokenAvailable as Mock).mockResolvedValue(true);
       expect(await canRefresh()).toEqual(true);
     });
 
@@ -109,7 +111,7 @@ describe('auth connect', () => {
   describe('get config', () => {
     it('fetches the config from storage', async () => {
       const { getConfig } = useAuthConnect();
-      (Preferences.get as jest.Mock).mockResolvedValue({ value: JSON.stringify(opt) });
+      (Preferences.get as Mock).mockResolvedValue({ value: JSON.stringify(opt) });
       await getConfig();
       expect(Preferences.get).toHaveBeenCalledTimes(1);
       expect(Preferences.get).toHaveBeenCalledWith({
@@ -119,7 +121,7 @@ describe('auth connect', () => {
 
     it('caches the config', async () => {
       const { getConfig } = useAuthConnect();
-      (Preferences.get as jest.Mock).mockResolvedValue({ value: JSON.stringify(opt) });
+      (Preferences.get as Mock).mockResolvedValue({ value: JSON.stringify(opt) });
       await getConfig();
       await getConfig();
       expect(Preferences.get).toHaveBeenCalledTimes(1);
@@ -127,13 +129,13 @@ describe('auth connect', () => {
 
     it('resolves the value', async () => {
       const { getConfig } = useAuthConnect();
-      (Preferences.get as jest.Mock).mockResolvedValue({ value: JSON.stringify(opt) });
+      (Preferences.get as Mock).mockResolvedValue({ value: JSON.stringify(opt) });
       expect(await getConfig()).toEqual(opt);
     });
 
     it('resolves undefined if there is no value', async () => {
       const { getConfig } = useAuthConnect();
-      (Preferences.get as jest.Mock).mockResolvedValue({ value: null });
+      (Preferences.get as Mock).mockResolvedValue({ value: null });
       expect(await getConfig()).toBeUndefined();
     });
   });
@@ -142,7 +144,7 @@ describe('auth connect', () => {
     it('fetches the flow from storage', async () => {
       const { getFlow } = useAuthConnect();
       const { flows } = useAuthFlows();
-      (Preferences.get as jest.Mock).mockResolvedValue({
+      (Preferences.get as Mock).mockResolvedValue({
         value: JSON.stringify(flows[0]),
       });
       await getFlow();
@@ -155,7 +157,7 @@ describe('auth connect', () => {
     it('caches the flow', async () => {
       const { getFlow } = useAuthConnect();
       const { flows } = useAuthFlows();
-      (Preferences.get as jest.Mock).mockResolvedValue({
+      (Preferences.get as Mock).mockResolvedValue({
         value: JSON.stringify(flows[0]),
       });
       await getFlow();
@@ -166,7 +168,7 @@ describe('auth connect', () => {
     it('resolves the value', async () => {
       const { getFlow } = useAuthConnect();
       const { flows } = useAuthFlows();
-      (Preferences.get as jest.Mock).mockResolvedValue({
+      (Preferences.get as Mock).mockResolvedValue({
         value: JSON.stringify(flows[0]),
       });
       expect(await getFlow()).toEqual(flows[0]);
@@ -174,7 +176,7 @@ describe('auth connect', () => {
 
     it('resolves undefined if there is no value', async () => {
       const { getFlow } = useAuthConnect();
-      (Preferences.get as jest.Mock).mockResolvedValue({ value: null });
+      (Preferences.get as Mock).mockResolvedValue({ value: null });
       expect(await getFlow()).toBeUndefined();
     });
   });
@@ -183,7 +185,7 @@ describe('auth connect', () => {
     it('fetches the provider from storage', async () => {
       const { getProvider } = useAuthConnect();
       const { providers } = useAuthProviders();
-      (Preferences.get as jest.Mock).mockResolvedValue({
+      (Preferences.get as Mock).mockResolvedValue({
         value: JSON.stringify(providers[0]),
       });
       await getProvider();
@@ -196,7 +198,7 @@ describe('auth connect', () => {
     it('caches the provider', async () => {
       const { getProvider } = useAuthConnect();
       const { providers } = useAuthProviders();
-      (Preferences.get as jest.Mock).mockResolvedValue({
+      (Preferences.get as Mock).mockResolvedValue({
         value: JSON.stringify(providers[0]),
       });
       await getProvider();
@@ -207,7 +209,7 @@ describe('auth connect', () => {
     it('resolves the value', async () => {
       const { getProvider } = useAuthConnect();
       const { providers } = useAuthProviders();
-      (Preferences.get as jest.Mock).mockResolvedValue({
+      (Preferences.get as Mock).mockResolvedValue({
         value: JSON.stringify(providers[2]),
       });
       expect(await getProvider()).toEqual(providers[2]);
@@ -215,7 +217,7 @@ describe('auth connect', () => {
 
     it('resolves undefined if there is no value', async () => {
       const { getProvider } = useAuthConnect();
-      (Preferences.get as jest.Mock).mockResolvedValue({ value: null });
+      (Preferences.get as Mock).mockResolvedValue({ value: null });
       expect(await getProvider()).toBeUndefined();
     });
   });
@@ -232,13 +234,13 @@ describe('auth connect', () => {
 
     it('resolves false if the token is not expired', async () => {
       const { isAccessTokenExpired } = useAuthConnect();
-      (AuthConnect.isAccessTokenExpired as jest.Mock).mockResolvedValue(false);
+      (AuthConnect.isAccessTokenExpired as Mock).mockResolvedValue(false);
       expect(await isAccessTokenExpired()).toEqual(false);
     });
 
     it('resolves true if the token is expired', async () => {
       const { isAccessTokenExpired } = useAuthConnect();
-      (AuthConnect.isAccessTokenExpired as jest.Mock).mockResolvedValue(true);
+      (AuthConnect.isAccessTokenExpired as Mock).mockResolvedValue(true);
       expect(await isAccessTokenExpired()).toEqual(true);
     });
 
@@ -261,13 +263,13 @@ describe('auth connect', () => {
 
     it('is true when there is an auth-result and an access token is available', async () => {
       const { isAuthenticated } = useAuthConnect();
-      (AuthConnect.isAccessTokenAvailable as jest.Mock).mockResolvedValue(true);
+      (AuthConnect.isAccessTokenAvailable as Mock).mockResolvedValue(true);
       expect(await isAuthenticated()).toBe(true);
     });
 
     it('is false when there is an auth-result and an access token is not available', async () => {
       const { isAuthenticated } = useAuthConnect();
-      (AuthConnect.isAccessTokenAvailable as jest.Mock).mockResolvedValue(false);
+      (AuthConnect.isAccessTokenAvailable as Mock).mockResolvedValue(false);
       expect(await isAuthenticated()).toBe(false);
     });
 
@@ -282,8 +284,8 @@ describe('auth connect', () => {
   //       tested in the login
   describe('login', () => {
     beforeEach(() => {
-      (isPlatform as jest.Mock).mockReturnValue(true);
-      (AuthConnect.login as jest.Mock).mockResolvedValue({
+      (isPlatform as Mock).mockReturnValue(true);
+      (AuthConnect.login as Mock).mockResolvedValue({
         accessToken: 'the-access-token',
         refreshToken: 'the-refresh-token',
         idToken: 'the-id-token',
@@ -292,7 +294,7 @@ describe('auth connect', () => {
 
     describe('with nothing saved', () => {
       beforeEach(() => {
-        (Preferences.get as jest.Mock).mockResolvedValue({ value: null });
+        (Preferences.get as Mock).mockResolvedValue({ value: null });
       });
 
       it('gets the config', async () => {
@@ -353,7 +355,7 @@ describe('auth connect', () => {
 
       describe('on web', () => {
         beforeEach(() => {
-          (isPlatform as jest.Mock).mockReturnValue(false);
+          (isPlatform as Mock).mockReturnValue(false);
         });
 
         it('creates with Cognito', async () => {
@@ -495,7 +497,7 @@ describe('auth connect', () => {
 
     it('performs the refresh of the session', async () => {
       const { refresh } = useAuthConnect();
-      (AuthConnect.refreshSession as jest.Mock).mockResolvedValue({
+      (AuthConnect.refreshSession as Mock).mockResolvedValue({
         accessToken: 'new-access-token',
         refreshToken: 'new-refresh-token',
         idToken: 'new-id-token',
@@ -511,7 +513,7 @@ describe('auth connect', () => {
 
     it('saves the new auth results', async () => {
       const { refresh } = useAuthConnect();
-      (AuthConnect.refreshSession as jest.Mock).mockResolvedValue({
+      (AuthConnect.refreshSession as Mock).mockResolvedValue({
         accessToken: 'new-access-token',
         refreshToken: 'new-refresh-token',
         idToken: 'new-id-token',
@@ -530,7 +532,7 @@ describe('auth connect', () => {
 
     it('uses the new auth results', async () => {
       const { logout, refresh } = useAuthConnect();
-      (AuthConnect.refreshSession as jest.Mock).mockResolvedValue({
+      (AuthConnect.refreshSession as Mock).mockResolvedValue({
         accessToken: 'new-access-token',
         refreshToken: 'new-refresh-token',
         idToken: 'new-id-token',
@@ -556,7 +558,7 @@ describe('auth connect', () => {
     it('sets up AC for mobile', async () => {
       const { setConfig } = useAuthConnect();
       const { providers } = useAuthProviders();
-      (isPlatform as jest.Mock).mockReturnValue(true);
+      (isPlatform as Mock).mockReturnValue(true);
       await setConfig(providers[3], opt);
       expect(AuthConnect.setup).toHaveBeenCalledTimes(1);
       expect(AuthConnect.setup).toHaveBeenCalledWith({
@@ -575,7 +577,7 @@ describe('auth connect', () => {
     it('sets up AC for web', async () => {
       const { setConfig } = useAuthConnect();
       const { providers } = useAuthProviders();
-      (isPlatform as jest.Mock).mockReturnValue(false);
+      (isPlatform as Mock).mockReturnValue(false);
       await setConfig(providers[3], opt);
       expect(AuthConnect.setup).toHaveBeenCalledTimes(1);
       expect(AuthConnect.setup).toHaveBeenCalledWith({
@@ -651,7 +653,7 @@ describe('auth connect', () => {
         const { setConfig } = useAuthConnect();
         const { providers } = useAuthProviders();
         const { flows } = useAuthFlows();
-        (isPlatform as jest.Mock).mockReturnValue(false);
+        (isPlatform as Mock).mockReturnValue(false);
         await setConfig(
           providers[3],
           opt,

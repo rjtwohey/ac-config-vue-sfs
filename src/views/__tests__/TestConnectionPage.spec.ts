@@ -1,10 +1,11 @@
-import TestConnectionPage from '@/views/TestConnectionPage.vue';
-import { flushPromises, mount, VueWrapper } from '@vue/test-utils';
-import { createRouter, createWebHistory, Router } from 'vue-router';
 import { useAuthConnect } from '@/composables/auth-connect';
+import TestConnectionPage from '@/views/TestConnectionPage.vue';
 import { IonTitle } from '@ionic/vue';
+import { flushPromises, mount, VueWrapper } from '@vue/test-utils';
+import { beforeEach, describe, expect, it, Mock, vi } from 'vitest';
+import { createRouter, createWebHistory, Router } from 'vue-router';
 
-jest.mock('@/composables/auth-connect');
+vi.mock('@/composables/auth-connect');
 
 describe('test connection page', () => {
   let router: Router;
@@ -26,7 +27,7 @@ describe('test connection page', () => {
   };
 
   beforeEach(() => {
-    jest.resetAllMocks();
+    vi.resetAllMocks();
   });
 
   it('renders', async () => {
@@ -43,8 +44,8 @@ describe('test connection page', () => {
   describe('when logged in', () => {
     beforeEach(() => {
       const { isAuthenticated, canRefresh } = useAuthConnect();
-      (isAuthenticated as jest.Mock).mockResolvedValue(true);
-      (canRefresh as jest.Mock).mockResolvedValue(true);
+      (isAuthenticated as Mock).mockResolvedValue(true);
+      (canRefresh as Mock).mockResolvedValue(true);
     });
 
     it('shows a status of logged in', async () => {
@@ -69,7 +70,7 @@ describe('test connection page', () => {
     describe('when refresh is available', () => {
       beforeEach(() => {
         const { canRefresh } = useAuthConnect();
-        (canRefresh as jest.Mock).mockResolvedValue(true);
+        (canRefresh as Mock).mockResolvedValue(true);
       });
 
       it('enables the refresh', async () => {
@@ -100,7 +101,7 @@ describe('test connection page', () => {
     describe('when refresh is not available', () => {
       beforeEach(() => {
         const { canRefresh } = useAuthConnect();
-        (canRefresh as jest.Mock).mockResolvedValue(false);
+        (canRefresh as Mock).mockResolvedValue(false);
       });
 
       it('disables the refresh', async () => {
@@ -132,8 +133,8 @@ describe('test connection page', () => {
   describe('when logged out', () => {
     beforeEach(() => {
       const { isAuthenticated, canRefresh } = useAuthConnect();
-      (isAuthenticated as jest.Mock).mockResolvedValue(false);
-      (canRefresh as jest.Mock).mockResolvedValue(false);
+      (isAuthenticated as Mock).mockResolvedValue(false);
+      (canRefresh as Mock).mockResolvedValue(false);
     });
 
     it('shows a status of logged out', async () => {

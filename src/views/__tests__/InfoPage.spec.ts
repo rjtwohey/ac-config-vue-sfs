@@ -1,10 +1,10 @@
 import InfoPage from '@/views/InfoPage.vue';
-import { flushPromises, mount, VueWrapper } from '@vue/test-utils';
-import { createRouter, createWebHistory, Router } from 'vue-router';
-// import { useAuthConnect } from '@/composables/auth-connect';
 import { IonTitle } from '@ionic/vue';
+import { flushPromises, mount, VueWrapper } from '@vue/test-utils';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { createRouter, createWebHistory, Router } from 'vue-router';
 
-jest.mock('@/composables/auth-connect');
+vi.mock('@/composables/auth-connect');
 
 describe('information page', () => {
   let router: Router;
@@ -26,7 +26,7 @@ describe('information page', () => {
   };
 
   beforeEach(() => {
-    jest.resetAllMocks();
+    vi.resetAllMocks();
   });
 
   it('renders', async () => {
