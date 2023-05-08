@@ -8,6 +8,10 @@ const routes: Array<RouteRecordRaw> = [
     redirect: '/tabs/test-connection',
   },
   {
+    path: '/auth-action-complete',
+    component: () => import('@/views/AuthActionCompletePage.vue'),
+  },
+  {
     path: '/tabs/',
     component: TabsPage,
     children: [
