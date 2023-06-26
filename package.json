@@ -5,8 +5,9 @@
   "private": true,
   "scripts": {
     "assets": "capacitor-assets generate --iconBackgroundColor '#f4f5f8' --splashBackgroundColor '#f4f5f8' --iconBackgroundColorDark '#222428' --splashBackgroundColorDark '#222428'",
-    "build": "npm run build:web && cap sync",
+    "build": "npm run clean && npm run trapeze && npm run build:web && cap sync",
     "build:web": "vue-tsc && vite build",
+    "clean": "git checkout android/app/build.gradle android/app/src/main/AndroidManifest.xml ios/App/App/Info.plist",
     "dev": "vite",
     "lint": "eslint",
     "prepare": "husky install",
@@ -14,7 +15,8 @@
     "test": "vitest run",
     "test:cov": "vitest run --coverage",
     "test:dev": "vitest",
-    "test:e2e": "cypress run"
+    "test:e2e": "cypress run",
+    "trapeze": "(export $(cat .env | xargs) && trapeze run -y config.yaml)"
   },
   "dependencies": {
     "@capacitor/android": "^5.0.0",
@@ -39,6 +41,7 @@
     "@capacitor/assets": "~2.0.4",
     "@capacitor/cli": "^5.0.0",
     "@ionic/prettier-config": "~3.0.0",
+    "@trapezedev/configure": "~7.0.10",
     "@vitejs/plugin-vue": "^4.0.0",
     "@vitest/coverage-v8": "~0.32.2",
     "@vue/eslint-config-typescript": "^11.0.2",

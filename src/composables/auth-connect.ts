@@ -94,10 +94,10 @@ const setDefaultConfig = async (): Promise<void> => {
 };
 
 const setDefaultConfigMobile = async (): Promise<void> => {
-  const { awsConfig } = useAuthConfig();
+  const { awsConfig, mobileConfig } = useAuthConfig();
   const provider = providers.find((p) => p.key === 'cognito');
   if (provider) {
-    await setConfig(provider, awsConfig);
+    await setConfig(provider, { ...awsConfig, ...mobileConfig });
   }
 };
 

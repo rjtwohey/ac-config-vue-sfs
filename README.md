@@ -18,6 +18,36 @@ Once the access is set up, the build processes is the same as for most Ionic app
 - to run on an Android device: `ionic cap run android`
 - to run on an iOS device: `ionic cap run ios` (you may need to run `ionic cap start ios` and update the development team)
 
+## Development Notes
+
+### The `android/app/build.gradle` File
+
+When doing a build, the following files will be modified:
+
+```
+android/app/build.gradle
+android/app/src/main/AndroidManifest.xml
+ios/App/App/Info.plist
+```
+
+You can clean these up with a `npm run clean`. If you accidentally commit the changes, the _only_ issue will be with
+the `android/app/build.gradle` file. The build adds a `manifestPlaceholders` variable:
+
+```diff
+--- a/android/app/build.gradle
++++ b/android/app/build.gradle
+@@ -15,6 +15,7 @@ android {
+              // Default: https://android.googlesource.com/platform/frameworks/base/+/282e181b58cf72b6ca770dc7ca5f91f135444502/tools/aapt/AaptAssets.cpp#61
+             ignoreAssetsPattern '!.svn:!.git:!.ds_store:!*.scc:.*:!CVS:!thumbs.db:!picasa.ini:!*~'
+         }
++        manifestPlaceholders = ['AUTH_URL_SCHEME': 'msauth']
+     }
+     buildTypes {
+         release {
+```
+
+Do not commit any changes that include the `manifestPlaceholders` value.
+
 ## Pages
 
 ### Test Connection
@@ -43,7 +73,7 @@ This page contains an explanation of the app itself as well as static informatio
 
 ## Modifying Other Configuration Parameters
 
-Many of the other configuration parameters do not affect the connection itself and can be changed whoever you see fit.
+Many of the other configuration parameters do not affect the connection itself and can be changed however you see fit.
 They are not exposed in the UI because the intention of this app is to focus on items that need to be customized on
 per-provider basis.
 
@@ -56,14 +86,14 @@ There are three configuration items, however, that you may want to change that w
 ### Updating the `redirectUri` and the `logoutUrl`
 
 For the `redirectUri` and `logoutUrl`, you will need to also update the allowable schema in the `Info.plist` and
-`AndroidManifest.xml` files. This application uses `msauth` as the protocol. For your own app we suggest using
-something like `com.your-domain.appname` instead. Such a change requires:
+`app/build.gradle` files.
 
-- modifications to the `src/composables/auth-config.ts` file
-- modification to the `Info.plist` and `AndroidManifest.xml` files
-- modifications to the OIDC provider setup to allow the redirect and logout URIs
+This application uses `msauth` as the protocol. Our Azure instance requires `msauth`, so we use that for the other
+three just to keep the code simple. For your own app we suggest using something like `com.your-domain.appname` instead.
+You can change this in your build by changing the `AC_SCHEME` in the `.env` file and running `npm run build` again.
 
-All three of the above items needs to match.
+To use the modified `AC_SCHEME`, go to the Settings page, set the custmizable configuration settings as desired,
+and press the `Use Customization` button.
 
 ### Updating the `uiMode`
 

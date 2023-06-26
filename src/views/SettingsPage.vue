@@ -12,28 +12,28 @@
         <ion-list-header> Ionic's OIDC Server Options</ion-list-header>
         <ion-item>
           <ion-label>
-            <ion-button expand="full" data-testid="use-azure" :disabled="disableEdits" @click="useAzure()"
+            <ion-button expand="full" data-testid="use-azure" :disabled="disableTemplates" @click="useAzure()"
               >Use Azure</ion-button
             >
           </ion-label>
         </ion-item>
         <ion-item>
           <ion-label>
-            <ion-button expand="full" data-testid="use-aws" :disabled="disableEdits" @click="useAWS()"
+            <ion-button expand="full" data-testid="use-aws" :disabled="disableTemplates" @click="useAWS()"
               >Use Cognito</ion-button
             >
           </ion-label>
         </ion-item>
         <ion-item>
           <ion-label>
-            <ion-button expand="full" data-testid="use-auth0" :disabled="disableEdits" @click="useAuth0()"
+            <ion-button expand="full" data-testid="use-auth0" :disabled="disableTemplates" @click="useAuth0()"
               >Use Auth0</ion-button
             >
           </ion-label>
         </ion-item>
         <ion-item>
           <ion-label>
-            <ion-button expand="full" data-testid="use-okta" :disabled="disableEdits" @click="useOkta()"
+            <ion-button expand="full" data-testid="use-okta" :disabled="disableTemplates" @click="useOkta()"
               >Use Okta</ion-button
             >
           </ion-label>
@@ -137,7 +137,7 @@ import {
   isPlatform,
   onIonViewDidEnter,
 } from '@ionic/vue';
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 
 const disableEdits = ref(false);
 const showFlow = ref(false);
@@ -147,6 +147,8 @@ const discoveryUrl = ref('');
 const flow = ref<Flow>();
 const provider = ref<Provider>();
 const scope = ref('');
+
+const disableTemplates = computed(() => disableEdits.value || import.meta.env.VITE_AC_SCHEME !== 'msauth');
 
 const { auth0Config, awsConfig, azureConfig, oktaConfig, mobileConfig, webConfig } = useAuthConfig();
 const { flows } = useAuthFlows();

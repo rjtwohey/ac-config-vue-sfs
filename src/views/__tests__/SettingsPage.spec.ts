@@ -188,6 +188,34 @@ describe('settings page', () => {
       expect((button.element as HTMLButtonElement).disabled).toBe(false);
     });
 
+    describe('with a non-standard AC_SCHEME', () => {
+      beforeEach(() => {
+        import.meta.env.VITE_AC_SCHEME = 'com.acme.custom';
+      });
+
+      afterEach(() => {
+        import.meta.env.VITE_AC_SCHEME = 'msauth';
+      });
+
+      it('disables our big four templates', async () => {
+        const wrapper = await mountView();
+        let button = wrapper.findComponent('[data-testid="use-azure"]');
+        expect((button.element as HTMLButtonElement).disabled).toBe(true);
+        button = wrapper.findComponent('[data-testid="use-aws"]');
+        expect((button.element as HTMLButtonElement).disabled).toBe(true);
+        button = wrapper.findComponent('[data-testid="use-auth0"]');
+        expect((button.element as HTMLButtonElement).disabled).toBe(true);
+        button = wrapper.findComponent('[data-testid="use-okta"]');
+        expect((button.element as HTMLButtonElement).disabled).toBe(true);
+      });
+
+      it('allows customization', async () => {
+        const wrapper = await mountView();
+        const button = wrapper.findComponent('[data-testid="use-customization"]');
+        expect((button.element as HTMLButtonElement).disabled).toBe(false);
+      });
+    });
+
     describe('azure button', () => {
       let button: any;
       beforeEach(async () => {
