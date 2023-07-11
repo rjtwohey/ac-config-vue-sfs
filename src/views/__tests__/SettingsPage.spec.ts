@@ -188,13 +188,13 @@ describe('settings page', () => {
       expect((button.element as HTMLButtonElement).disabled).toBe(false);
     });
 
-    describe('with a non-standard AC_SCHEME', () => {
+    describe('with a non-standard AUTH_URL_SCHEME', () => {
       beforeEach(() => {
-        import.meta.env.VITE_AC_SCHEME = 'com.acme.custom';
+        import.meta.env.VITE_AUTH_URL_SCHEME = 'com.acme.custom';
       });
 
       afterEach(() => {
-        import.meta.env.VITE_AC_SCHEME = 'msauth';
+        import.meta.env.VITE_AUTH_URL_SCHEME = 'msauth';
       });
 
       it('disables our big four templates', async () => {

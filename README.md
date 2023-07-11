@@ -90,9 +90,9 @@ For the `redirectUri` and `logoutUrl`, you will need to also update the allowabl
 
 This application uses `msauth` as the protocol. Our Azure instance requires `msauth`, so we use that for the other
 three just to keep the code simple. For your own app we suggest using something like `com.your-domain.appname` instead.
-You can change this in your build by changing the `AC_SCHEME` in the `.env` file and running `npm run build` again.
+You can change this in your build by changing the `AUTH_URL_SCHEME` in the `.env` file and running `npm run build` again.
 
-To use the modified `AC_SCHEME`, go to the Settings page, set the custmizable configuration settings as desired,
+To use the modified `AUTH_URL_SCHEME`, go to the Settings page, set the custmizable configuration settings as desired,
 and press the `Use Customization` button.
 
 ### Updating the `uiMode`

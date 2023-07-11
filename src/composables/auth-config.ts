@@ -45,8 +45,8 @@ const webConfig = {
 };
 
 const mobileConfig = {
-  redirectUri: `${import.meta.env.VITE_AC_SCHEME}://auth-action-complete`,
-  logoutUrl: `${import.meta.env.VITE_AC_SCHEME}://auth-action-complete`,
+  redirectUri: `${import.meta.env.VITE_AUTH_URL_SCHEME}://auth-action-complete`,
+  logoutUrl: `${import.meta.env.VITE_AUTH_URL_SCHEME}://auth-action-complete`,
 };
 
 export const useAuthConfig = () => ({

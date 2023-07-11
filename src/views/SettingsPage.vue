@@ -148,7 +148,7 @@ const flow = ref<Flow>();
 const provider = ref<Provider>();
 const scope = ref('');
 
-const disableTemplates = computed(() => disableEdits.value || import.meta.env.VITE_AC_SCHEME !== 'msauth');
+const disableTemplates = computed(() => disableEdits.value || import.meta.env.VITE_AUTH_URL_SCHEME !== 'msauth');
 
 const { auth0Config, awsConfig, azureConfig, oktaConfig, mobileConfig, webConfig } = useAuthConfig();
 const { flows } = useAuthFlows();
