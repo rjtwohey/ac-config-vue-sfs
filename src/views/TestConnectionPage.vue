@@ -32,14 +32,30 @@
         </ion-card-content>
       </ion-card>
 
-      <ion-alert
-        :is-open="displayRefreshAlert"
-        header="Alert"
-        sub-header="Refresh"
+      <ion-toast
+        :is-open="displayRefreshSuccess"
         message="The refresh was a success!!"
-        :buttons="['OK']"
-        @didDismiss="hideRefreshAlert"
-      ></ion-alert>
+        color="success"
+        :duration="3000"
+        position="middle"
+        @didDismiss="() => (displayRefreshSuccess = false)"
+      ></ion-toast>
+      <ion-toast
+        :is-open="displayRefreshFailed"
+        message="The refresh failed!!"
+        color="danger"
+        :duration="3000"
+        position="middle"
+        @didDismiss="() => (displayRefreshFailed = false)"
+      ></ion-toast>
+      <ion-toast
+        :is-open="displayLoginFailed"
+        message="The login failed!!"
+        color="danger"
+        :duration="3000"
+        position="middle"
+        @didDismiss="() => (displayLoginFailed = false)"
+      ></ion-toast>
     </ion-content>
   </ion-page>
 </template>
@@ -47,7 +63,6 @@
 <script setup lang="ts">
 import { useAuthConnect } from '@/composables/auth-connect';
 import {
-  IonAlert,
   IonButton,
   IonCard,
   IonCardContent,
@@ -59,13 +74,16 @@ import {
   IonLabel,
   IonPage,
   IonTitle,
+  IonToast,
   IonToolbar,
 } from '@ionic/vue';
 import { ref } from 'vue';
 
 const loggedIn = ref(false);
 const errorMessage = ref('');
-const displayRefreshAlert = ref(false);
+const displayRefreshSuccess = ref(false);
+const displayRefreshFailed = ref(false);
+const displayLoginFailed = ref(false);
 const disableRefresh = ref(true);
 
 const { canRefresh, isAuthenticated, login, logout, refresh } = useAuthConnect();
@@ -75,24 +93,29 @@ const checkLoginStatus = async () => {
   disableRefresh.value = !(await canRefresh());
 };
 
-const performRefresh = async () => {
-  errorMessage.value = '';
+const performRefresh = async (): Promise<void> => {
   try {
     await refresh();
     await checkLoginStatus();
-    displayRefreshAlert.value = true;
+    displayRefreshSuccess.value = true;
   } catch (err: any) {
-    errorMessage.value = err as string;
+    displayRefreshFailed.value = true;
   }
 };
 
-const hideRefreshAlert = () => (displayRefreshAlert.value = false);
+const performLogin = async (): Promise<void> => {
+  try {
+    await login();
+  } catch (err: any) {
+    displayLoginFailed.value = true;
+  }
+};
 
 const handleAuth = async () => {
   if (loggedIn.value) {
     await logout();
   } else {
-    await login();
+    await performLogin();
   }
   await checkLoginStatus();
 };
