@@ -22,10 +22,10 @@
           </ion-label>
           <div class="error-message">{{ errorMessage }}</div>
           <div class="actions">
-            <ion-button fill="outline" data-testid="auth-button" @click="handleAuth()">
+            <ion-button fill="outline" data-testid="auth-button" @click="handleAuth">
               {{ loggedIn ? 'Log Out' : 'Log In' }}
             </ion-button>
-            <ion-button :disabled="disableRefresh" data-testid="refresh-button" @click="performRefresh()"
+            <ion-button :disabled="disableRefresh" data-testid="refresh-button" @click="handleRefresh"
               >Refresh</ion-button
             >
           </div>
@@ -34,7 +34,7 @@
 
       <ion-toast
         :is-open="displayRefreshSuccess"
-        message="The refresh was a success!!"
+        message="The refresh was successful!!"
         color="success"
         :duration="3000"
         position="middle"
@@ -49,12 +49,12 @@
         @didDismiss="() => (displayRefreshFailed = false)"
       ></ion-toast>
       <ion-toast
-        :is-open="displayLoginFailed"
-        message="The login failed!!"
+        :is-open="displayAuthFailed"
+        message="Authentication failed!!"
         color="danger"
         :duration="3000"
         position="middle"
-        @didDismiss="() => (displayLoginFailed = false)"
+        @didDismiss="() => (displayAuthFailed = false)"
       ></ion-toast>
     </ion-content>
   </ion-page>
@@ -83,7 +83,7 @@ const loggedIn = ref(false);
 const errorMessage = ref('');
 const displayRefreshSuccess = ref(false);
 const displayRefreshFailed = ref(false);
-const displayLoginFailed = ref(false);
+const displayAuthFailed = ref(false);
 const disableRefresh = ref(true);
 
 const { canRefresh, isAuthenticated, login, logout, refresh } = useAuthConnect();
@@ -93,7 +93,7 @@ const checkLoginStatus = async () => {
   disableRefresh.value = !(await canRefresh());
 };
 
-const performRefresh = async (): Promise<void> => {
+const handleRefresh = async (): Promise<void> => {
   try {
     await refresh();
     await checkLoginStatus();
@@ -103,19 +103,19 @@ const performRefresh = async (): Promise<void> => {
   }
 };
 
-const performLogin = async (): Promise<void> => {
+const handleAuth = async (): Promise<void> => {
   try {
-    await login();
+    await performAuth();
   } catch (err: any) {
-    displayLoginFailed.value = true;
+    displayAuthFailed.value = true;
   }
 };
 
-const handleAuth = async () => {
+const performAuth = async () => {
   if (loggedIn.value) {
     await logout();
   } else {
-    await performLogin();
+    await login();
   }
   await checkLoginStatus();
 };

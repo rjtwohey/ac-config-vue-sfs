@@ -9,15 +9,15 @@
       <h1>Current Status</h1>
       <dl>
         <dt>Currently Logged In</dt>
-        <dd>{{ loggedIn }}</dd>
+        <dd>{{ loggedIn ? 'Yes' : 'No' }}</dd>
       </dl>
       <dl>
         <dt>Access Token is Expired</dt>
-        <dd>{{ accessTokenExpired }}</dd>
+        <dd>{{ accessTokenExpired ? 'Yes' : 'No' }}</dd>
       </dl>
       <dl>
         <dt>Refresh is Available</dt>
-        <dd>{{ refreshAvailable }}</dd>
+        <dd>{{ refreshAvailable ? 'Yes' : 'No' }}</dd>
       </dl>
       <dl>
         <dt>Access Token</dt>
