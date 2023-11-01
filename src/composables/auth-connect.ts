@@ -33,7 +33,7 @@ const { providers } = useAuthProviders();
 const { flows } = useAuthFlows();
 
 const createProvider = async (): Promise<void> => {
-  const authProvider = (await getProvider()) || providers.find((p) => p.key === 'cognito');
+  const authProvider = (await getProvider()) || providers.find((p) => p.key === 'azure');
   switch (authProvider?.key) {
     case 'auth0':
       provider = new Auth0Provider();
@@ -112,7 +112,7 @@ const setDefaultConfigWeb = async (): Promise<void> => {
         ...awsConfig,
         ...webConfig,
       },
-      flow
+      flow,
     );
   }
 };

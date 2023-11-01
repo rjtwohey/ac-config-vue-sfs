@@ -20,13 +20,13 @@ const awsConfig: ProviderOptions = {
 };
 
 const azureConfig: ProviderOptions = {
-  clientId: 'ed8cb65d-7bb2-4107-bc36-557fb680b994',
+  clientId: 'a6dbcaa1-c691-4cad-8bbe-ec9543475ec2',
   scope:
-    'openid offline_access email profile https://dtjacdemo.onmicrosoft.com/ed8cb65d-7bb2-4107-bc36-557fb680b994/demo.read',
+    'openid offline_access email profile https://imenuapss.onmicrosoft.com/a6dbcaa1-c691-4cad-8bbe-ec9543475ec2/user_impersonation',
   discoveryUrl:
-    'https://dtjacdemo.b2clogin.com/dtjacdemo.onmicrosoft.com/v2.0/.well-known/openid-configuration?p=B2C_1_acdemo2',
-  redirectUri: 'msauth://com.ionic.acprovider/O5m5Gtd2Xt8UNkW3wk7DWyKGfv8%3D',
-  logoutUrl: 'msauth://com.ionic.acprovider/O5m5Gtd2Xt8UNkW3wk7DWyKGfv8%3D',
+    'https://imenuapss.b2clogin.com/imenuapss.onmicrosoft.com/B2C_1_SignUpSignIn/v2.0/.well-known/openid-configuration',
+  redirectUri: 'http://localhost:8100/',
+  logoutUrl: 'https://imenuapss.b2clogin.com/imenuapss.onmicrosoft.com/B2C_1_SignUpSignIn/oauth2/v2.0/logout',
   audience: '',
 };
 
